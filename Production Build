@@ -1,1 +1,41 @@
+backend server.js:
+JavaScript
+const express = require('express');
+const path = require('path');
 
+const app = express();
+
+// Your API routes here
+// app.use('/api', routes);
+
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+    // Handle React routing (important for SPA)
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../frontend/dist/index.html'));
+    });
+}
+
+
+Backend package.json 
+JSON
+{
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "cd ../frontend && npm install && npm run build",
+    "test": "jest"
+  }
+}
+
+
+
+project-root/
+ ├── backend/
+ │    ├── server.js
+ │    ├── package.json
+ ├── frontend/
+ │    ├── src/
+ │    ├── dist/   
