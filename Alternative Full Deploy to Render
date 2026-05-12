@@ -1,1 +1,32 @@
+1. Root package.json
+JSON
+{
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd backend && npm start"
+  }
+}
 
+
+2. Backend file: backend/server.js
+JavaScript 
+const express = require('express');
+const path = require('path');
+
+const app = express();
+
+// API routes first
+app.use('/api', require('./routes'));
+
+// Serve React build files
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// React catch-all route
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
