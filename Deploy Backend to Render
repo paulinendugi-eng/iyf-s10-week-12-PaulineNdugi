@@ -1,1 +1,47 @@
+gitignore 
+node_modules/
+.env
+dist/
+
+
+2.  package.json 
+JSON
+{
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  }
+}
+
+
+3. If .env file
+You create this locally:
+Environment
+NODE_ENV=development
+MONGODB_URI=your-mongodb-atlas-uri
+JWT_SECRET=your-secret-key
+PORT=3000
+
+
+4.server.js
+JavaScript
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 
