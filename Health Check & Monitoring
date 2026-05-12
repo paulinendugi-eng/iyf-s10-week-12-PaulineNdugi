@@ -1,1 +1,38 @@
+backend/routes/health.js
+JavaScript
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose');
+
+router.get('/', async (req, res) => {
+    const healthcheck = {
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    };
+
+    res.json(healthcheck);
+});
+
+module.exports = router;
+
+
+backend/app.js 
+JavaScript
+app.use('/api/health', require('./routes/health'));
+So it will look something like:
+JavaScript
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+// routes
+app.use('/api/health', require('./routes/health'));
+
+
+
+
+
 
